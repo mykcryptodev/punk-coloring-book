@@ -7,13 +7,23 @@ import "~/styles/globals.css";
 import { WagmiProvider } from "wagmi";
 import { config } from "~/config/wagmi";
 import '@coinbase/onchainkit/tailwind.css';
+import '@rainbow-me/rainbowkit/styles.css';
+import { type AvatarComponent, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { env } from '~/env';
-import { base } from 'viem/chains';
+import { base } from 'wagmi/chains';
 import { ThirdwebProvider } from "thirdweb/react";
+import { Avatar } from '@coinbase/onchainkit/identity';
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const queryClient = new QueryClient();
+
+  const CustomAvatar: AvatarComponent = ({ address, size }) => {
+    console.log({ size })
+    return (
+      <Avatar address={address} className={`w-${size} h-${size}`} />
+    )
+  };
 
   return (
     <WagmiProvider config={config}>
@@ -22,9 +32,11 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           apiKey={env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
           chain={base}
         >
-          <ThirdwebProvider>
-            <Component {...pageProps} />
-          </ThirdwebProvider>
+          <RainbowKitProvider avatar={CustomAvatar}>
+            <ThirdwebProvider>
+              <Component {...pageProps} />
+            </ThirdwebProvider>
+          </RainbowKitProvider>
         </OnchainKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
