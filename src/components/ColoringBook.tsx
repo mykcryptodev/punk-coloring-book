@@ -1,12 +1,14 @@
 import React, { useRef, useState, useEffect, type MouseEvent, type FC } from 'react';
-import { createThirdwebClient } from 'thirdweb';
-import { useAccount } from 'wagmi';
-import { signMessage } from '@wagmi/core';
+import { createThirdwebClient, encode, getContract } from 'thirdweb';
+import { useAccount, useSendTransaction } from 'wagmi';
 import { env } from '~/env';
 import { type NFT } from '~/types/simplehash';
 import { upload } from "thirdweb/storage";
 import { api } from '~/utils/api';
-import { config } from '~/config/wagmi';
+import { baseSepolia } from 'thirdweb/chains';
+import { getNFT } from 'thirdweb/extensions/erc721';
+import { updateTokenURI } from '~/thirdweb/84532/0x9088bba410d204dc6837cc4f9ba23246dc5f58bf';
+import { COLOR_PUNK } from '~/constants/addresses';
 
 type Props = {
   color: string | null;
@@ -19,7 +21,8 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
   const [, setImage] = useState<HTMLImageElement | null>(null);
   const [history, setHistory] = useState<ImageData[]>([]);
   const account = useAccount();
-  const { mutateAsync: updateMetadata } = api.nft.updateMetadata.useMutation();
+  const { sendTransaction } = useSendTransaction();
+  const { mutateAsync: refreshMetadata } = api.nft.refereshMetadata.useMutation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -164,16 +167,43 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
         client,
         files: [new File([imageBlob], 'image.png')],
       });
-      const message = `Update token id ${punk.token_id} image to ${imageUri}`;
-      const signedMessage = await signMessage(config, {
-        account: account.address,
-        message,
+      const contract = getContract({
+        client,
+        // chain: base,
+        chain: baseSepolia,
+        address: COLOR_PUNK,
       });
-      await updateMetadata({
-        nftOwner: account?.address ?? '',
-        imageUri,
-        tokenId: punk?.token_id ?? '',
-        signedMessage,
+      const nft = await getNFT({
+        contract,
+        tokenId: BigInt(punk.token_id),
+      });
+      const updatedMetadata = {
+        ...nft.metadata,
+        image: imageUri,
+        id: punk.token_id,
+      };
+      const updatedMetadataUri = await upload({
+        client,
+        files: [new File([JSON.stringify(updatedMetadata)], `${punk.token_id}.json`)],
+      });
+      console.log({ updatedMetadataUri });
+      const updateTokenMetadataTx = updateTokenURI({
+        contract,
+        tokenId: BigInt(punk.token_id),
+        uri: updatedMetadataUri,
+      });
+      const data = await encode(updateTokenMetadataTx);
+      const transaction = {
+        to: contract.address,
+        data,
+      };
+      sendTransaction(transaction, {
+        onSuccess: (hash: string) => {
+          console.log('Updated metadata', hash);
+          void refreshMetadata({
+            tokenId: punk.token_id,
+          });
+        },
       });
     } catch (error) {
       console.error(error);
@@ -190,7 +220,7 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
     <div className="mt-8 flex flex-col justify-center">
       {punk && (
         <button onClick={handleUndo} className="flex items-center gap-2 px-4 my-2">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
           </svg>
           Undo
@@ -211,7 +241,7 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
           disabled={isLoading}
         >
           {isLoading && (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6 animate-spin">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6 animate-spin">
               <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
           )}

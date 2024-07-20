@@ -1,9 +1,12 @@
 import { useState, type FC } from "react";
-import { claimTo } from "thirdweb/extensions/erc721";
-import { createThirdwebClient, encode, getContract, toWei } from "thirdweb";
+import { claimTo, generateMintSignature, mintTo, mintWithSignature } from "thirdweb/extensions/erc721";
+import { createThirdwebClient, encode, getContract, sendTransaction, toWei } from "thirdweb";
 import { base, baseSepolia } from "thirdweb/chains";
+import { viemAdapter } from "thirdweb/adapters/viem";
 import { env } from "~/env";
-import { useAccount, useSendTransaction } from "wagmi";
+import { useAccount, useSendTransaction, useWalletClient } from "wagmi";
+import { COLOR_PUNK } from "~/constants/addresses";
+import { mint } from "~/thirdweb/84532/0x9088bba410d204dc6837cc4f9ba23246dc5f58bf";
 
 type Props = {
   onMinted: () => void;
@@ -11,6 +14,7 @@ type Props = {
 
 export const MintPunk: FC<Props> = ({ onMinted }) => {
   const account = useAccount();
+  const { data: walletClient } = useWalletClient();
   const [quantity, setQuantity] = useState<number>(1);
   const { sendTransaction } = useSendTransaction()
   const client = createThirdwebClient({
@@ -20,13 +24,32 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
     client,
     // chain: base,
     chain: baseSepolia,
-    address: "0x588ad1D7f0583f06b5E424Fc44475D9ad29767Df",
-  })
-  const transaction = claimTo({
-    contract,
-    to: account?.address ?? '',
-    quantity: 1n,
+    address: COLOR_PUNK,
   });
+  const handleMint = async () => {
+    if (!account) return;
+    const adaptedAccount = viemAdapter.walletClient.fromViem({
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+      walletClient: walletClient as any, // accounts for wagmi/viem version mismatches
+    });
+    const transaction = mint({
+      contract,
+      to: adaptedAccount.address,
+      quantity: BigInt(quantity),
+    });
+    const data = await encode(transaction);
+    const mintPrice = '0.001';
+    sendTransaction({
+      to: contract.address,
+      data,
+      value: toWei(mintPrice),
+    }, {
+      onSuccess: (hash: string) => {
+        console.log('Minted', hash);
+        onMinted();
+      }
+    });
+  };
   return (
     <div className="flex flex-col">
       <div className="flex items-center gap-4 mx-auto">
@@ -48,14 +71,8 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
         <button 
           disabled={!account}
           onClick={async () => {
-            const encodedTransaction = await encode(transaction);
-            sendTransaction({
-              to: contract.address,
-              data: encodedTransaction,
-              value: BigInt(quantity) * toWei('0.00'),
-            }, {
-              onSuccess: onMinted,
-            });
+            await handleMint();
+            onMinted();
           }}
           className="btn-primary"
         >
