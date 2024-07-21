@@ -1,4 +1,3 @@
-/** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   paths: {
     artifacts: "./artifacts-zk",
