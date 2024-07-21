@@ -1,4 +1,4 @@
-import { expect, assert } from "chai";
+import { expect } from "chai";
 import hre from "hardhat";
 import { type SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 import { type ColorPunks } from "../typechain-types";
@@ -20,7 +20,7 @@ describe("Color Punks", function () {
         "500",
       ],
       deployerAccount,
-    );
+    ) as unknown as ColorPunks;
     await colorPunks.waitForDeployment();
   });
 

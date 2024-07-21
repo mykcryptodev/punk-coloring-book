@@ -8,6 +8,7 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist"
   },
-  "include": ["./scripts", "./test", "./typechain-types"],
+  "include": ["./scripts", "./test"],
+  "exclude": ["./typechain-types"],
   "files": ["./hardhat.config.ts"]
 }

@@ -1,5 +1,5 @@
 import { useState, type FC } from "react";
-import { createThirdwebClient, encode, getContract, toEther, toWei } from "thirdweb";
+import { createThirdwebClient, encode, getContract, toWei } from "thirdweb";
 import { viemAdapter } from "thirdweb/adapters/viem";
 import { env } from "~/env";
 import { useAccount, useSendTransaction, useWalletClient } from "wagmi";
