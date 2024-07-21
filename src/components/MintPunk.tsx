@@ -1,5 +1,5 @@
 import { useState, type FC } from "react";
-import { createThirdwebClient, encode, getContract, toWei } from "thirdweb";
+import { createThirdwebClient, encode, getContract, toEther, toWei } from "thirdweb";
 import { viemAdapter } from "thirdweb/adapters/viem";
 import { env } from "~/env";
 import { useAccount, useSendTransaction, useWalletClient } from "wagmi";
@@ -36,11 +36,11 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
       quantity: BigInt(quantity),
     });
     const data = await encode(transaction);
-    const mintPrice = '0.001';
+    const mintPrice = BigInt(toWei('0.001'));
     sendTransaction({
       to: contract.address,
       data,
-      value: toWei(mintPrice),
+      value: mintPrice * BigInt(quantity),
     }, {
       onSuccess: (hash: string) => {
         console.log('Minted', hash);

@@ -3,12 +3,20 @@
   "scripts": {
     "build": "npx thirdweb@latest detect",
     "deploy": "npx thirdweb@latest deploy",
-    "publish": "npx thirdweb@latest publish"
+    "publish": "npx thirdweb@latest publish",
+    "start": "ts-node hardhat.config.ts",
+    "test": "hardhat test"
   },
   "devDependencies": {
     "hardhat": "^2.13.0"
   },
   "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@thirdweb-dev/contracts": "^3.15.0",
+    "@typechain/ethers-v6": "^0.5.1",
+    "@typechain/hardhat": "^9.1.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typechain": "^8.3.2"
   }
 }
