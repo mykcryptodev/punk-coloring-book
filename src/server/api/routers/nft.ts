@@ -5,11 +5,11 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { type NftsByWalletResponse } from "~/types/simplehash";
 import { getNFT, updateMetadata } from "thirdweb/extensions/erc721";
 import { createThirdwebClient, getContract, sendTransaction } from "thirdweb";
-import { base, baseSepolia } from "thirdweb/chains";
 import { verifyMessage } from '@wagmi/core';
 import { config } from "~/config/wagmi";
 import { privateKeyToAccount } from "thirdweb/wallets";
 import { COLOR_PUNK } from "~/constants/addresses";
+import { CHAIN } from "~/constants/chains";
 
 export const nftRouter = createTRPCRouter({
   getOwnedBaseColors: publicProcedure
@@ -23,7 +23,7 @@ export const nftRouter = createTRPCRouter({
       const url = new URL(`https://api.simplehash.com/api/v0/nfts/owners`);
       url.searchParams.append('wallet_addresses', address);
       url.searchParams.append('contract_addresses', '0x7bc1c072742d8391817eb4eb2317f98dc72c61db');
-      url.searchParams.append('chains', 'base');
+      url.searchParams.append('chains', 'base'); // always get real base colors
       url.searchParams.append('limit', limit.toString());
       if (cursor) {
         url.searchParams.append('cursor', cursor);
@@ -50,7 +50,7 @@ export const nftRouter = createTRPCRouter({
       const url = new URL(`https://api.simplehash.com/api/v0/nfts/owners`);
       url.searchParams.append('wallet_addresses', address);
       url.searchParams.append('contract_addresses', COLOR_PUNK);
-      url.searchParams.append('chains', 'base-sepolia');
+      url.searchParams.append('chains', CHAIN.name);
       url.searchParams.append('limit', limit.toString());
       if (cursor) {
         url.searchParams.append('cursor', cursor);
@@ -71,7 +71,7 @@ export const nftRouter = createTRPCRouter({
       tokenId: z.string(),
     }))
     .mutation(async ({ input }) => {
-      const chain = 'base-sepolia';
+      const chain = CHAIN.name;
       const url = new URL(`https://api.simplehash.com/api/v0/nfts/refresh/${chain}/${COLOR_PUNK}/${input.tokenId}`);
 
       const response = await fetch(url.toString(), {
@@ -98,10 +98,8 @@ export const nftRouter = createTRPCRouter({
       });
       const contract = getContract({
         client,
-        chain: baseSepolia,
+        chain: CHAIN.thirdweb,
         address: COLOR_PUNK,
-        // chain: base,
-        // address: "0x64A7d3e538BabbEAa4Ed7b29999282B42A259BE9",
       })
       const nft = await getNFT({
         contract,

@@ -5,7 +5,6 @@ import { type NFT } from "~/types/simplehash";
 import { resolveScheme } from "thirdweb/storage";
 import { createThirdwebClient } from "thirdweb";
 import { env } from "~/env";
-import Link from "next/link";
 import { MintPunk } from "./MintPunk";
 
 type Props = {

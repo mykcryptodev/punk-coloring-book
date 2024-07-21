@@ -5,10 +5,10 @@ import { env } from '~/env';
 import { type NFT } from '~/types/simplehash';
 import { upload } from "thirdweb/storage";
 import { api } from '~/utils/api';
-import { baseSepolia } from 'thirdweb/chains';
 import { getNFT } from 'thirdweb/extensions/erc721';
 import { updateTokenURI } from '~/thirdweb/84532/0x9088bba410d204dc6837cc4f9ba23246dc5f58bf';
 import { COLOR_PUNK } from '~/constants/addresses';
+import { CHAIN } from '~/constants/chains';
 
 type Props = {
   color: string | null;
@@ -169,8 +169,7 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
       });
       const contract = getContract({
         client,
-        // chain: base,
-        chain: baseSepolia,
+        chain: CHAIN.thirdweb,
         address: COLOR_PUNK,
       });
       const nft = await getNFT({

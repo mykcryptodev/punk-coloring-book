@@ -1,12 +1,11 @@
 import { useState, type FC } from "react";
-import { claimTo, generateMintSignature, mintTo, mintWithSignature } from "thirdweb/extensions/erc721";
-import { createThirdwebClient, encode, getContract, sendTransaction, toWei } from "thirdweb";
-import { base, baseSepolia } from "thirdweb/chains";
+import { createThirdwebClient, encode, getContract, toWei } from "thirdweb";
 import { viemAdapter } from "thirdweb/adapters/viem";
 import { env } from "~/env";
 import { useAccount, useSendTransaction, useWalletClient } from "wagmi";
 import { COLOR_PUNK } from "~/constants/addresses";
 import { mint } from "~/thirdweb/84532/0x9088bba410d204dc6837cc4f9ba23246dc5f58bf";
+import { CHAIN } from "~/constants/chains";
 
 type Props = {
   onMinted: () => void;
@@ -22,8 +21,7 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
   });
   const contract = getContract({
     client,
-    // chain: base,
-    chain: baseSepolia,
+    chain: CHAIN.thirdweb,
     address: COLOR_PUNK,
   });
   const handleMint = async () => {

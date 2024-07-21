@@ -19,7 +19,6 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   const queryClient = new QueryClient();
 
   const CustomAvatar: AvatarComponent = ({ address, size }) => {
-    console.log({ size })
     return (
       <Avatar address={address} className={`w-${size} h-${size}`} />
     )
@@ -30,7 +29,12 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider 
           apiKey={env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-          chain={base}
+          chain={{
+            ...base,
+            fees: {
+              baseFeeMultiplier: 1,
+            },
+          }}
         >
           <RainbowKitProvider avatar={CustomAvatar}>
             <ThirdwebProvider>
