@@ -14,6 +14,7 @@ import { env } from '~/env';
 import { base } from 'wagmi/chains';
 import { ThirdwebProvider } from "thirdweb/react";
 import { Avatar } from '@coinbase/onchainkit/identity';
+import { customRainbowTheme } from '~/config/rainbow';
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const queryClient = new QueryClient();
@@ -31,7 +32,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           apiKey={env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
           chain={base}
         >
-          <RainbowKitProvider avatar={CustomAvatar}>
+          <RainbowKitProvider avatar={CustomAvatar} theme={customRainbowTheme}>
             <ThirdwebProvider>
               <Component {...pageProps} />
             </ThirdwebProvider>

@@ -22,9 +22,9 @@
     --bg-inverse: theme(colors.gray.100);
     --bg-inverse-hover: theme(colors.gray.200);
     --bg-inverse-active: theme(colors.gray.300);
-    --bg-primary: theme(colors.indigo.600);
-    --bg-primary-hover: theme(colors.indigo.700);
-    --bg-primary-active: theme(colors.indigo.800);
+    --bg-primary: #0600FF;
+    --bg-primary-hover: #0500E6;
+    --bg-primary-active: #0400CC;
     --bg-secondary: theme(colors.slate.200);
     --bg-secondary-hover: theme(colors.slate.300);
     --bg-secondary-active: theme(colors.slate.400);

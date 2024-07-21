@@ -33,7 +33,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
       const context = canvas.getContext('2d');
       if (!context) return;
 
-      let imgUrl = punk?.image_url ?? '/select.png';
+      let imgUrl = punk?.image_url ?? '/select-alt.png';
       if (punk?.image_url?.startsWith("ipfs://")) {
         const client = createThirdwebClient({
           clientId: env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,

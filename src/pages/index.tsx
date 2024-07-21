@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import BaseColors from "~/components/BaseColors";
 import ColoringBook from "~/components/ColoringBook";
@@ -31,6 +32,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="my-40 flex flex-col items-center justify-center">
+        <div className="mx-auto max-w-3xl mb-4">
+          <Image
+            src="/wordmark.png"
+            alt="Color Punks"
+            width={300}
+            height={100}
+            layout="responsive"
+            priority
+          />
+        </div>
         <Wallet />
         <div className="my-4" />
         <div className="mb-2 text-xl font-bold">Your Punks</div>

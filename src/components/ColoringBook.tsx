@@ -33,7 +33,7 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
 
     const img = new Image();
     img.crossOrigin = 'anonymous';
-    img.src = punk?.image_url ?? '/select.png'; // Replace with your image path
+    img.src = punk?.image_url ?? '/select-alt-w-text.png'; // Replace with your image path
     img.onload = () => {
       setImage(img);
       context.imageSmoothingEnabled = false;
