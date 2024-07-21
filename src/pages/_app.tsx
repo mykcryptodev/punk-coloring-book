@@ -29,12 +29,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider 
           apiKey={env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-          chain={{
-            ...base,
-            fees: {
-              baseFeeMultiplier: 1,
-            },
-          }}
+          chain={base}
         >
           <RainbowKitProvider avatar={CustomAvatar}>
             <ThirdwebProvider>
