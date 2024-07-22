@@ -5,7 +5,7 @@ import "@thirdweb-dev/contracts/base/ERC721Base.sol";
 import "@thirdweb-dev/contracts/extension/PrimarySale.sol";
 
 contract ColorPunks is ERC721Base, PrimarySale {
-    uint256 public constant MAX_SUPPLY = 5000;
+    uint256 public constant MAX_SUPPLY = 1000;
     uint256 public constant MINT_PRICE = 0.001 ether;
 
     mapping(uint256 => string) private fullURI;
@@ -64,7 +64,7 @@ contract ColorPunks is ERC721Base, PrimarySale {
             _safeMint(_to, 1);
             // set token uri for each token
              _setTokenURI(tokenId, string(abi.encodePacked(
-                "ipfs://QmY3oFtEgUpHwphxDUYzEVghvyaLPojV1paRh4NxeqijTM/", 
+                "ipfs://QmWuSp5h6WyspJ46g7pDC8YvCVhxi5DtwcYFqHZxFJ72pd/", 
                 Strings.toString(tokenId)
             )));
         }
