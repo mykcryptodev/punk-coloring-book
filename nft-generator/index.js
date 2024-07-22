@@ -23,22 +23,25 @@ const priorities = ['punks','top','beard'];
 const main = async (numberOfOutputs) => {
   const traitTypesDir = dir.traitTypes;
   // register all the traits 
-  const types = fs.readdirSync(traitTypesDir);
+  const types = fs.readdirSync(traitTypesDir).filter(file => file !== '.DS_Store');
 
   // set all priotized layers to be drawn first. for eg: punk type, top... You can set these values in the priorities array in line 21
   const traitTypes = priorities.concat(types.filter(x=> !priorities.includes(x)))
-                      .map(traitType => (
-                        fs.readdirSync(`${traitTypesDir}/${traitType}/`)
-                      .filter(value => value !== '.DS_Store') // Ignore .DS_Store files
-                      .map(value=> {
-                          return {trait_type: traitType, value: value}
-                        }).concat({trait_type: traitType, value: 'N/A'})
-                      ));
+    .map(traitType => {
+      const path = `${traitTypesDir}/${traitType}/`;
+      if (fs.lstatSync(path).isDirectory()) {
+        return fs.readdirSync(path)
+          .filter(value => value !== '.DS_Store') // Ignore .DS_Store files
+          .map(value=> {
+              return {trait_type: traitType, value: value}
+            }).concat({trait_type: traitType, value: 'N/A'})
+      }
+    });
 
   const backgrounds = fs.readdirSync(dir.background);
 
   // trait type avail for each punk
-  const combinations = allPossibleCases(traitTypes,800_000)
+  const combinations = allPossibleCases(traitTypes,77_000)
   
 
   for (var n = 0; n < Number(numberOfOutputs); n++) {
@@ -50,9 +53,9 @@ const main = async (numberOfOutputs) => {
 
 const usedCombination = {};
 const getUnusedCombination = () => {
-  let randomIndex = Math.floor(Math.random() * 800_000)
+  let randomIndex = Math.floor(Math.random() * 77_000)
   while(usedCombination[randomIndex]){
-    randomIndex = Math.floor(Math.random() * 800_000)
+    randomIndex = Math.floor(Math.random() * 77_000)
   }
   usedCombination[randomIndex] = true;
   return randomIndex;
