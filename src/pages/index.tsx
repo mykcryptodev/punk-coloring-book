@@ -40,16 +40,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="mb-40 sm:mt-20 mt-10 flex flex-col items-center justify-center">
-        <div className="mx-auto max-w-3xl mb-4">
-          <Image
-            src="/wordmark.png"
-            alt="Color Punks"
-            width={300}
-            height={100}
-            layout="responsive"
-            priority
-          />
-        </div>
+        <h1 className="text-center mb-4 font-bold text-6xl sm:text-7xl text-primary">
+          ColorPunks
+        </h1>
         <Wallet />
         <div className="my-4" />
         <div className="mb-2 text-xl font-bold">Your Punks</div>
