@@ -44,21 +44,21 @@ export default function Home() {
           ColorPunks
         </h1>
         <Wallet />
-        <div className="my-4" />
-        <div className="mb-2 text-xl font-bold">Your Punks</div>
-        <Punks 
-          onPunkSelected={(punk) => setSelectedPunk(punk)}
-          updatedPunk={updatedPunk}
+        <ColoringBook
+          color={selectedColor}
+          punk={selectedPunk}
+          onPunkColored={(punk) => onPunkColored(punk)}
         />
         <div className="my-4" />
         <div className="mb-2 text-xl font-bold">Your Base Colors</div>
         <BaseColors 
           onColorSelected={(color) => setSelectedColor(color)}
         />
-        <ColoringBook
-          color={selectedColor}
-          punk={selectedPunk}
-          onPunkColored={(punk) => onPunkColored(punk)}
+        <div className="my-4" />
+        <div className="mb-2 text-xl font-bold">Your Punks</div>
+        <Punks 
+          onPunkSelected={(punk) => setSelectedPunk(punk)}
+          updatedPunk={updatedPunk}
         />
       </main>
     </>
