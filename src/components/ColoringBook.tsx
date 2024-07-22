@@ -25,6 +25,17 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    // if the punk is null, then clear the canvas
+    if (!punk) {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const context = canvas.getContext('2d');
+      if (!context) return;
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }, [punk]);
+
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const context = canvas.getContext('2d');
@@ -32,7 +43,7 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
 
     const img = new Image();
     img.crossOrigin = 'anonymous';
-    let imgUrl = punk?.metadata.image ?? '/select-alt.png';
+    let imgUrl = punk?.metadata.image ?? '/select-alt-w-text.png';
     if (punk?.metadata.image?.startsWith("ipfs://")) {
       const client = createThirdwebClient({
         clientId: env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,

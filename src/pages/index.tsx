@@ -6,11 +6,19 @@ import BaseColors from "~/components/BaseColors";
 import ColoringBook from "~/components/ColoringBook";
 import Punks from "~/components/Punks";
 import { Wallet } from "~/components/Wallet";
+import { useAccount } from 'wagmi';
 
 export default function Home() {
+  const account = useAccount();
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedPunk, setSelectedPunk] = useState<NFT | null>(null);
   const [updatedPunk, setUpdatedPunk] = useState<NFT | null>(null);
+
+  useEffect(() => {
+    if (!account?.address) {
+      setSelectedPunk(null);
+    }
+  }, [account]);
 
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {

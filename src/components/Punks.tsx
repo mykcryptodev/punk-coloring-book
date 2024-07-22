@@ -48,6 +48,8 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
   useEffect(() => {
     if (account?.address) {
       void fetchOwnedNfts();
+    } else {
+      setOwnedPunks([]);
     }
   }, [account?.address, fetchOwnedNfts]);
 
