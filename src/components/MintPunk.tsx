@@ -72,7 +72,7 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
             await handleMint();
             onMinted();
           }}
-          className="btn-primary"
+          className="btn-primary font-bold"
         >
           Mint Punk {`${toEther(mintPrice * BigInt(quantity))} ETH`}
         </button>

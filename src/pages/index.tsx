@@ -39,7 +39,7 @@ export default function Home() {
         <meta name="description" content="Use your Base Colors to decorate your Color Punks!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="my-40 flex flex-col items-center justify-center">
+      <main className="mb-40 sm:mt-20 mt-10 flex flex-col items-center justify-center">
         <div className="mx-auto max-w-3xl mb-4">
           <Image
             src="/wordmark.png"
