@@ -4,18 +4,27 @@ import { base, baseSepolia } from 'wagmi/chains';
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import {
   coinbaseWallet,
+  metaMaskWallet,
+  rainbowWallet,
+  walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
+import { env } from '~/env';
 
 const connectors = connectorsForWallets(
   [
     {
-      groupName: 'Recommended',
-      wallets: [coinbaseWallet],
+      groupName: 'Suggested',
+      wallets: [
+        rainbowWallet,
+        metaMaskWallet,
+        coinbaseWallet,
+        walletConnectWallet,
+      ],
     },
   ],
   {
     appName: 'Color Punks',
-    projectId: '1fac7d8ed191481eb6bf0625a2b9a556',
+    projectId: env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
   }
 );
 

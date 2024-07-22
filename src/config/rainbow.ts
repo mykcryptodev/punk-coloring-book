@@ -1,9 +1,10 @@
 import { type Theme, getDefaultConfig, lightTheme } from '@rainbow-me/rainbowkit';
 import { base } from 'wagmi/chains';
+import { env } from '~/env';
 
 export const config = getDefaultConfig({
-  appName: 'My RainbowKit App',
-  projectId: '1fac7d8ed191481eb6bf0625a2b9a556',
+  appName: 'Color Punks',
+  projectId: env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
   chains: [base],
 });
 
