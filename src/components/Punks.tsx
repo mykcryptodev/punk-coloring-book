@@ -6,7 +6,7 @@ import { env } from "~/env";
 import { MintPunk } from "./MintPunk";
 import { getOwnedNFTs } from "thirdweb/extensions/erc721";
 import { CHAIN } from "~/constants/chains";
-import { COLOR_PUNK } from "~/constants/addresses";
+import { COLOR_PUNKS } from "~/constants/addresses";
 
 type Props = {
   onPunkSelected: (punk: NFT) => void;
@@ -26,7 +26,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
   const contract = useMemo(() => getContract({
     client,
     chain: CHAIN.thirdweb,
-    address: COLOR_PUNK,
+    address: COLOR_PUNKS,
   }), [client]);
 
   const fetchOwnedNfts = useCallback(async () => {

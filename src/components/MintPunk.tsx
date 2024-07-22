@@ -3,7 +3,7 @@ import { createThirdwebClient, encode, getContract, toEther, toWei } from "third
 import { viemAdapter } from "thirdweb/adapters/viem";
 import { env } from "~/env";
 import { useAccount, useSendTransaction, useWalletClient } from "wagmi";
-import { COLOR_PUNK } from "~/constants/addresses";
+import { COLOR_PUNKS } from "~/constants/addresses";
 import { mint } from "~/thirdweb/84532/0x9088bba410d204dc6837cc4f9ba23246dc5f58bf";
 import { CHAIN } from "~/constants/chains";
 
@@ -22,7 +22,7 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
   const contract = getContract({
     client,
     chain: CHAIN.thirdweb,
-    address: COLOR_PUNK,
+    address: COLOR_PUNKS,
   });
   const mintPrice = BigInt(toWei('0.001'));
   const handleMint = async () => {

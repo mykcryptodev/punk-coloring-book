@@ -21,25 +21,34 @@ export const BaseColors: FC<Props> = ({ onColorSelected }) => {
   return (
     <div className="flex flex-col gap-1 w-full justify-center">
       <div className="flex justify-center flex-wrap gap-2">
-        {data?.nfts?.map((nft) => (
-          <div 
-            key={nft.nft_id} 
-            className={`flex flex-col gap-2 cursor-pointer`}
-            onClick={() => {
-              setSelectedColor(nft.name);
-              onColorSelected(nft.name)
-            }}
-          >
-            <Image 
-              src={nft.image_url}
-              width={100}
-              height={100}
-              alt={nft.name}
-              className={`${selectedColor === nft.name ? 'border-2 border-black' : ''}`}
-            />
-            <span className="text-center text-sm">{nft.name}</span>
-          </div>
-        ))}
+        {data?.nfts?.map((nft) => {
+          const customName = nft.extra_metadata.attributes.find((attr) => attr.trait_type === 'Color Name')?.value;
+          const originalName = nft.name;
+          const colorName = () => {
+            if (!customName) return originalName;
+            if (`#${customName.toUpperCase()}` === originalName) return originalName;
+            return customName;
+          }
+          return (
+            <div 
+              key={nft.nft_id} 
+              className={`flex flex-col gap-2 cursor-pointer`}
+              onClick={() => {
+                setSelectedColor(colorName());
+                onColorSelected(colorName())
+              }}
+            >
+              <Image 
+                src={nft.image_url}
+                width={100}
+                height={100}
+                alt={colorName()}
+                className={`${selectedColor === nft.name ? 'border-2 border-black' : ''}`}
+              />
+              <span className="text-center text-sm">{colorName()}</span>
+            </div>
+          )
+        })}
         {isLoading && <div>Loading...</div>}
         {!isLoading && !data?.nfts?.length && <div>No colors found</div>}
       </div>
