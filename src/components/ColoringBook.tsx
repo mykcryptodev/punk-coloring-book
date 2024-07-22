@@ -206,23 +206,24 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
         data,
       };
       sendTransaction(transaction, {
-        onSuccess: (hash: string) => {
+        onSuccess: () => {
           void refreshMetadata({
             tokenId: punk.id.toString(),
           });
+          onPunkColored({
+            ...punk,
+            metadata: {
+              ...punk.metadata,
+              image: imageUri,
+            },
+          });
+          setIsLoading(false);
         },
       });
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
-      onPunkColored({
-        ...punk,
-        metadata: {
-          ...punk.metadata,
-          image: imageUri,
-        },
-      });
     }
   }
 
