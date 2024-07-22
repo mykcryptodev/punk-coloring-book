@@ -1,5 +1,5 @@
 import { useState, type FC } from "react";
-import { createThirdwebClient, encode, getContract, toWei } from "thirdweb";
+import { createThirdwebClient, encode, getContract, toEther, toWei } from "thirdweb";
 import { viemAdapter } from "thirdweb/adapters/viem";
 import { env } from "~/env";
 import { useAccount, useSendTransaction, useWalletClient } from "wagmi";
@@ -24,6 +24,7 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
     chain: CHAIN.thirdweb,
     address: COLOR_PUNK,
   });
+  const mintPrice = BigInt(toWei('0.001'));
   const handleMint = async () => {
     if (!account) return;
     const adaptedAccount = viemAdapter.walletClient.fromViem({
@@ -36,7 +37,6 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
       quantity: BigInt(quantity),
     });
     const data = await encode(transaction);
-    const mintPrice = BigInt(toWei('0.001'));
     sendTransaction({
       to: contract.address,
       data,
@@ -74,7 +74,7 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
           }}
           className="btn-primary"
         >
-          Mint Punk
+          Mint Punk {`${toEther(mintPrice * BigInt(quantity))} ETH`}
         </button>
       </div>
     </div>
