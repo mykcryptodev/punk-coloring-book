@@ -48,3 +48,6 @@ yarn-error.log*
 
 # solidity artifications
 **/artifacts
+
+# generated nft art
+**/outputs
