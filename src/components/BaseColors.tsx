@@ -35,7 +35,7 @@ export const BaseColors: FC<Props> = ({ onColorSelected }) => {
               className={`flex flex-col gap-2 cursor-pointer`}
               onClick={() => {
                 setSelectedColor(colorName());
-                onColorSelected(colorName())
+                onColorSelected(originalName)
               }}
             >
               <Image 
@@ -43,7 +43,7 @@ export const BaseColors: FC<Props> = ({ onColorSelected }) => {
                 width={100}
                 height={100}
                 alt={colorName()}
-                className={`${selectedColor === nft.name ? 'border-2 border-black' : ''}`}
+                className={`${selectedColor === colorName() ? 'border-2 border-black' : ''}`}
               />
               <span className="text-center text-sm">{colorName()}</span>
             </div>

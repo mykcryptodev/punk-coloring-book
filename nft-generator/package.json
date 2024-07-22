@@ -9,6 +9,7 @@
   "author": "Victor Lam",
   "license": "MIT",
   "dependencies": {
-    "canvas": "^2.8.0"
+    "canvas": "^2.8.0",
+    "dotenv": "^16.4.5"
   }
 }

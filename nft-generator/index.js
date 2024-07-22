@@ -3,8 +3,8 @@ const { createCanvas, loadImage } = require("canvas");
 const console = require("console");
 
 const imageFormat = {
-    width: 24,
-    height: 24
+    width: 1024,
+    height: 1024
 };
 
 const dir = {
@@ -17,6 +17,7 @@ let totalOutputs = 0;
 
 const canvas = createCanvas(imageFormat.width, imageFormat.height);
 const ctx = canvas.getContext("2d");
+ctx.imageSmoothingEnabled = false;
 
 const priorities = ['punks','top','beard'];
 
