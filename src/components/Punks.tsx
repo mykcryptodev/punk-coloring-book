@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState, type FC } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type FC } from "react";
 import { useAccount } from "wagmi";
-import { api } from "~/utils/api";
-import { type NFT } from "~/types/simplehash";
 import { resolveScheme } from "thirdweb/storage";
-import { createThirdwebClient } from "thirdweb";
+import { type NFT, createThirdwebClient, getContract } from "thirdweb";
 import { env } from "~/env";
 import { MintPunk } from "./MintPunk";
+import { getOwnedNFTs } from "thirdweb/extensions/erc721";
+import { CHAIN } from "~/constants/chains";
+import { COLOR_PUNK } from "~/constants/addresses";
 
 type Props = {
   onPunkSelected: (punk: NFT) => void;
@@ -15,13 +16,40 @@ type Props = {
 export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
   const [selectedPunk, setSelectedPunk] = useState<NFT | null>(null);
   const account = useAccount();
-  const { data, isLoading, refetch } = api.nft.getOwnedPunks.useQuery({
-    address: account?.address ?? '',
-  }, {
-    enabled: !!account,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
+  const [ownedPunks, setOwnedPunks] = useState<NFT[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const client = useMemo(() => createThirdwebClient({
+    clientId: env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
+  }), []);
+
+  const contract = useMemo(() => getContract({
+    client,
+    chain: CHAIN.thirdweb,
+    address: COLOR_PUNK,
+  }), [client]);
+
+  const fetchOwnedNfts = useCallback(async () => {
+    if (!account?.address) return;
+    setIsLoading(true);
+    try {
+      const ownedNFTs = await getOwnedNFTs({
+        contract,
+        owner: account.address,
+      });
+      setOwnedPunks(ownedNFTs);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [account?.address, contract]);
+
+  useEffect(() => {
+    if (account?.address) {
+      void fetchOwnedNfts();
+    }
+  }, [account?.address, fetchOwnedNfts]);
 
   const PunkPic: FC<{ punk: NFT }> = ({ punk }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -33,14 +61,14 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
       const context = canvas.getContext('2d');
       if (!context) return;
 
-      let imgUrl = punk?.image_url ?? '/select-alt.png';
-      if (punk?.image_url?.startsWith("ipfs://")) {
+      let imgUrl = punk?.metadata.image ?? '/select-alt.png';
+      if (punk?.metadata.image?.startsWith("ipfs://")) {
         const client = createThirdwebClient({
           clientId: env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
         });
         const url = resolveScheme({
           client,
-          uri: punk.image_url,
+          uri: punk.metadata.image,
         });
         imgUrl = url;
       }
@@ -53,14 +81,14 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
         context.imageSmoothingEnabled = false;
         context.drawImage(img, 0, 0, canvas.width, canvas.height);
       };
-    }, [punk?.image_url]);
+    }, [punk?.metadata.image]);
     
     return (
       <canvas
         ref={canvasRef}
         width={100}
         height={100}
-        className={`${selectedPunk?.nft_id === punk.nft_id ? 'border border-black' : ''}`}
+        className={`${selectedPunk?.id === punk.id ? 'border border-black' : ''}`}
       />
     )
   };
@@ -68,9 +96,9 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
   return (
     <div className="flex flex-col gap-1 w-full justify-center">
       <div className="flex flex-wrap justify-center gap-2 mb-4">
-        {data?.nfts?.map((nft) => (
+        {ownedPunks?.map((nft) => (
           <div 
-            key={nft.nft_id} 
+            key={nft.id} 
             className={`flex flex-col gap-2 cursor-pointer`}
             onClick={() => {
               setSelectedPunk(nft);
@@ -78,25 +106,15 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
             }}
           >
             <PunkPic 
-              punk={nft.nft_id === updatedPunk?.nft_id ? updatedPunk : nft}
+              punk={nft.id === updatedPunk?.id ? updatedPunk : nft}
             />
-            <span className="text-center text-sm">{nft.name}</span>
+            <span className="text-center text-sm">{nft.metadata.name}</span>
           </div>
         ))}
         {isLoading && <div>Loading...</div>}
-        {!isLoading && !data?.nfts?.length && <div>No punks found</div>}
+        {!isLoading && !ownedPunks?.length && <div>No punks found</div>}
       </div>
-      <MintPunk onMinted={refetch} />
-      {/* <Link className="mx-auto" href="/mint" rel="noreferrer" target="_blank">
-        <button 
-          className="mt-4 flex items-center gap-2 justify-center w-full px-4 py-2 bg-secondary rounded hover:bg-secondary-hover active:bg-secondary-active disabled:opacity-50" 
-        >
-          Mint a new punk
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-          </svg>
-        </button>
-      </Link> */}
+      <MintPunk onMinted={fetchOwnedNfts} />
     </div>
   )
 };

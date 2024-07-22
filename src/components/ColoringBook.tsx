@@ -1,9 +1,8 @@
 import React, { useRef, useState, useEffect, type MouseEvent, type FC } from 'react';
-import { createThirdwebClient, encode, getContract } from 'thirdweb';
+import { type NFT, createThirdwebClient, encode, getContract } from 'thirdweb';
 import { useAccount, useSendTransaction } from 'wagmi';
 import { env } from '~/env';
-import { type NFT } from '~/types/simplehash';
-import { upload } from "thirdweb/storage";
+import { resolveScheme, upload } from "thirdweb/storage";
 import { api } from '~/utils/api';
 import { getNFT } from 'thirdweb/extensions/erc721';
 import { updateTokenURI } from '~/thirdweb/84532/0x9088bba410d204dc6837cc4f9ba23246dc5f58bf';
@@ -33,7 +32,18 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
 
     const img = new Image();
     img.crossOrigin = 'anonymous';
-    img.src = punk?.image_url ?? '/select-alt-w-text.png'; // Replace with your image path
+    let imgUrl = punk?.metadata.image ?? '/select-alt.png';
+    if (punk?.metadata.image?.startsWith("ipfs://")) {
+      const client = createThirdwebClient({
+        clientId: env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
+      });
+      const url = resolveScheme({
+        client,
+        uri: punk.metadata.image,
+      });
+      imgUrl = url;
+    }
+    img.src = imgUrl ?? '/select-alt-w-text.png'; // Replace with your image path
     img.onload = () => {
       setImage(img);
       context.imageSmoothingEnabled = false;
@@ -41,7 +51,7 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
       // Save the initial state
       setHistory([context.getImageData(0, 0, canvas.width, canvas.height)]);
     };
-  }, [punk?.image_url]);
+  }, [punk?.metadata.image]);
 
   const fillArea = (x: number, y: number, fillColor: Uint8ClampedArray) => {
     const canvas = canvasRef.current;
@@ -174,21 +184,20 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
       });
       const nft = await getNFT({
         contract,
-        tokenId: BigInt(punk.token_id),
+        tokenId: BigInt(punk.id),
       });
       const updatedMetadata = {
         ...nft.metadata,
         image: imageUri,
-        id: punk.token_id,
+        id: punk.id.toString(),
       };
       const updatedMetadataUri = await upload({
         client,
-        files: [new File([JSON.stringify(updatedMetadata)], `${punk.token_id}.json`)],
+        files: [new File([JSON.stringify(updatedMetadata)], `${punk.id.toString()}.json`)],
       });
-      console.log({ updatedMetadataUri });
       const updateTokenMetadataTx = updateTokenURI({
         contract,
-        tokenId: BigInt(punk.token_id),
+        tokenId: punk.id,
         uri: updatedMetadataUri,
       });
       const data = await encode(updateTokenMetadataTx);
@@ -198,9 +207,8 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
       };
       sendTransaction(transaction, {
         onSuccess: (hash: string) => {
-          console.log('Updated metadata', hash);
           void refreshMetadata({
-            tokenId: punk.token_id,
+            tokenId: punk.id.toString(),
           });
         },
       });
@@ -210,7 +218,10 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
       setIsLoading(false);
       onPunkColored({
         ...punk,
-        image_url: imageUri,
+        metadata: {
+          ...punk.metadata,
+          image: imageUri,
+        },
       });
     }
   }
@@ -232,7 +243,7 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
         onClick={handleCanvasClick}
         className="cursor-crosshair border-2 border-black"
       />
-      <div className="text-center mt-1">{punk?.name}</div>
+      <div className="text-center mt-1">{punk?.metadata.name}</div>
       {punk ? (
         <button 
           className="mt-4 flex items-center gap-2 justify-center w-full px-4 py-2 bg-primary rounded text-inverse hover:bg-primary-hover active:bg-primary-active disabled:opacity-50" 
