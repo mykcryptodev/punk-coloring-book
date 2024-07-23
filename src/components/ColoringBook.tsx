@@ -183,7 +183,23 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
     const client = createThirdwebClient({
       clientId: env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
     });
-    const image = canvasRef.current?.toDataURL('image/png');
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+  
+    // Create a temporary canvas to scale the image
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = 1024;
+    tempCanvas.height = 1024;
+    const tempContext = tempCanvas.getContext('2d');
+    if (!tempContext) return;
+
+    // Disable image smoothing
+    tempContext.imageSmoothingEnabled = false;
+  
+    // Draw the original canvas content scaled up to 1024x1024
+    tempContext.drawImage(canvas, 0, 0, 1024, 1024);
+
+    const image = tempCanvas.toDataURL('image/png');
     if (!image) return;
     const imageBlob = dataURLtoBlob(image);
     let imageUri = '';
