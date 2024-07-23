@@ -13,6 +13,7 @@ export default function Home() {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedPunk, setSelectedPunk] = useState<NFT | null>(null);
   const [updatedPunk, setUpdatedPunk] = useState<NFT | null>(null);
+  const [lastMintedTimestamp, setLastMintedTimestamp] = useState<number | null>(null);
 
   useEffect(() => {
     if (!account?.address) {
@@ -44,11 +45,14 @@ export default function Home() {
           ColorPunks
         </h1>
         <Wallet />
-        <Instructions />
+        <Instructions key={lastMintedTimestamp} />
         <div className="my-4" />
         <div className="text-xl font-bold mb-2">Your Punks</div>
         <Punks 
           onPunkSelected={(punk) => setSelectedPunk(punk)}
+          onPunkMinted={() => {
+            setLastMintedTimestamp(Date.now());
+          }}
           updatedPunk={updatedPunk}
         />
         <ColoringBook

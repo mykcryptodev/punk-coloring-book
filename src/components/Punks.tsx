@@ -12,10 +12,11 @@ import Link from "next/link";
 
 type Props = {
   onPunkSelected: (punk: NFT) => void;
+  onPunkMinted: () => void;
   updatedPunk: NFT | null;
 }
 
-export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
+export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) => {
   const [selectedPunk, setSelectedPunk] = useState<NFT | null>(null);
   const account = useAccount();
   const [ownedPunks, setOwnedPunks] = useState<NFT[]>([]);
@@ -58,6 +59,14 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
   useEffect(() => {
     void fetchOwnedNfts();
   }, [fetchOwnedNfts, updatedPunk?.metadata.image]);
+
+  const handleOnMint = () => {
+    void fetchOwnedNfts();
+    // wait 5s for the blockchain to index
+    setTimeout(() => {
+      void onPunkMinted();
+    }, 5000);
+  };
 
   const PunkPic: FC<{ punk: NFT }> = ({ punk }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -136,7 +145,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
         {isLoading && <div>Loading...</div>}
         {!isLoading && !ownedPunks?.length && <div>No punks found</div>}
       </div>
-      <MintPunk onMinted={fetchOwnedNfts} />
+      <MintPunk onMinted={handleOnMint} />
     </div>
   )
 };
