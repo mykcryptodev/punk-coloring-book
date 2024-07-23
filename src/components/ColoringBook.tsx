@@ -195,9 +195,26 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
 
     // Disable image smoothing
     tempContext.imageSmoothingEnabled = false;
-  
+
+    // Fixes an issue where there is a thin border on the left and top of the image
+    // Get the color of the pixel just to the right of the left (5px) border and just below the top border
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    const pixelData = context.getImageData(5, 5, 1, 1).data;
+    const backgroundColor = `rgba(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]}, ${pixelData[3] ?? 255 / 255})`;
+
+    // Set the background color to match the sampled color
+    tempContext.fillStyle = backgroundColor;
+    tempContext.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+    
     // Draw the original canvas content scaled up to 1024x1024
-    tempContext.drawImage(canvas, 0, 0, 1024, 1024);
+    tempContext.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 1024, 1024);
+
+    // Manually color the first few pixels of the top and left borders
+    const borderWidth = 5;
+    tempContext.fillStyle = backgroundColor;
+    tempContext.fillRect(0, 0, tempCanvas.width, borderWidth); // Top border
+    tempContext.fillRect(0, 0, borderWidth, tempCanvas.height); // Left border
 
     const image = tempCanvas.toDataURL('image/png');
     if (!image) return;
