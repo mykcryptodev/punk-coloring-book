@@ -103,8 +103,8 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
             key={nft.id} 
             className={`flex flex-col gap-2 cursor-pointer`}
             onClick={() => {
-              setSelectedPunk(nft);
-              onPunkSelected(nft);
+              setSelectedPunk(nft.id === updatedPunk?.id ? updatedPunk : nft);
+              onPunkSelected(nft.id === updatedPunk?.id ? updatedPunk : nft);
             }}
           >
             <PunkPic 

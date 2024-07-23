@@ -44,7 +44,10 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
     }, {
       onSuccess: (hash: string) => {
         console.log('Minted', hash);
-        onMinted();
+        // wait 2 seconds for the transaction to be indexed
+        setTimeout(() => {
+          onMinted();
+        }, 2000);
       }
     });
   };
@@ -70,7 +73,6 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
           disabled={!account}
           onClick={async () => {
             await handleMint();
-            onMinted();
           }}
           className="btn-primary font-bold"
         >
