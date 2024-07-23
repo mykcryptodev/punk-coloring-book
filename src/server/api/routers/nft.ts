@@ -75,16 +75,35 @@ export const nftRouter = createTRPCRouter({
     }))
     .mutation(async ({ input }) => {
       const chain = CHAIN.name;
-      const url = new URL(`https://api.simplehash.com/api/v0/nfts/refresh/${chain}/${COLOR_PUNKS}/${input.tokenId}`);
 
-      const response = await fetch(url.toString(), {
-        method: 'POST',
-        headers: {
-          'accept': 'application/json',
-          'X-API-KEY': env.SIMPLEHASH_API_KEY,
-        },
-      });
-      const data = await response.json() as NftsByWalletResponse;
+      // Refresh metadata on opensea
+      const osChainName = chain === 'base-sepolia' ? 'base_sepolia' : chain;
+      const baseUri = `https://${osChainName === 'base_sepolia' ? 'testnets-' : ''}api.opensea.io/api/v2`;
+      const openSeaUrl = new URL(`${baseUri}/chain/${osChainName}/contract/${COLOR_PUNKS}/nfts/${input.tokenId}/refresh`);
+
+      // Refresh metadata on simplehash
+      const simpleHashUrl = new URL(`https://api.simplehash.com/api/v0/nfts/refresh/${chain}/${COLOR_PUNKS}/${input.tokenId}`);
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [_openSeaResponse, simpleHashResponse] = await Promise.all([
+        fetch(openSeaUrl.toString(), {
+          method: 'POST',
+          headers: {
+            'accept': 'application/json',
+            'X-API-KEY': env.OPENSEA_API_KEY,
+          },
+        }),
+        fetch(simpleHashUrl.toString(), {
+          method: 'POST',
+          headers: {
+            'accept': 'application/json',
+            'X-API-KEY': env.SIMPLEHASH_API_KEY,
+          },
+        }),
+      ]);
+      console.log({ _openSeaResponse });
+
+      const data = await simpleHashResponse.json() as NftsByWalletResponse;
       return data;
     }),
   updateMetadata: publicProcedure

@@ -256,9 +256,12 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
       };
       sendTransaction(transaction, {
         onSuccess: () => {
-          void refreshMetadata({
-            tokenId: punk.id.toString(),
-          });
+          // wait for index before refresh
+          setTimeout(() => {
+            void refreshMetadata({
+              tokenId: punk.id.toString(),
+            });
+          }, 5000);
           onPunkColored({
             ...punk,
             metadata: {

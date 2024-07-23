@@ -11,6 +11,7 @@ export const env = createEnv({
     SIMPLEHASH_API_KEY: z.string(),
     ADMIN_PRIVATE_KEY: z.string(),
     THIRDWEB_ENGINE_ACCESS_TOKEN: z.string(),
+    OPENSEA_API_KEY: z.string(),
   },
 
   /**
@@ -36,6 +37,7 @@ export const env = createEnv({
     SIMPLEHASH_API_KEY: process.env.SIMPLEHASH_API_KEY,
     ADMIN_PRIVATE_KEY: process.env.ADMIN_PRIVATE_KEY,
     THIRDWEB_ENGINE_ACCESS_TOKEN: process.env.THIRDWEB_ENGINE_ACCESS_TOKEN,
+    OPENSEA_API_KEY: process.env.OPENSEA_API_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
