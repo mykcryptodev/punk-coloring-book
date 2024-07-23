@@ -7,6 +7,8 @@ import { MintPunk } from "./MintPunk";
 import { getOwnedNFTs } from "thirdweb/extensions/erc721";
 import { CHAIN } from "~/constants/chains";
 import { COLOR_PUNKS } from "~/constants/addresses";
+import NextImage from "next/image";
+import Link from "next/link";
 
 type Props = {
   onPunkSelected: (punk: NFT) => void;
@@ -110,7 +112,21 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
             <PunkPic 
               punk={nft.id === updatedPunk?.id ? updatedPunk : nft}
             />
-            <span className="text-center text-sm">{nft.metadata.name}</span>
+            <span className="flex items-center gap-1 text-center text-xs">
+              {nft.metadata.name}
+              <Link 
+                href={`https://${CHAIN.name === 'base-sepolia' ? 'testnets.' : ''}opensea.io/assets/${CHAIN.name}/${COLOR_PUNKS}`} 
+                rel="noreferrer" 
+                target="_blank"
+              >
+                <NextImage
+                  src="/opensea.svg"
+                  width={14}
+                  height={14}
+                  alt="opensea"
+                />
+              </Link>
+            </span>
           </div>
         ))}
         {isLoading && <div>Loading...</div>}
