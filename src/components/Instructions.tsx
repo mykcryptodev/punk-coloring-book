@@ -45,12 +45,11 @@ export const Instructions: FC = () => {
     }
   }, [account?.address, fetchOwnedNftIds]);
 
-  if (!isLoading && ownedPunkIds.length === 0) return null;
-
   if (isLoading) return (
     <div className="flex flex-col gap-2 mt-4 animate-pulse">
       <div className="h-8 w-32 bg-slate-300 rounded-lg mx-auto" />
       <div className="flex flex-col gap-1">
+        <div className="h-5 w-52 bg-slate-300 rounded-lg" />
         <div className="h-5 w-56 bg-slate-300 rounded-lg" />
         <div className="h-5 w-40 bg-slate-300 rounded-lg" />
         <div className="h-5 w-48 bg-slate-300 rounded-lg" />
@@ -58,13 +57,26 @@ export const Instructions: FC = () => {
     </div>
   )
 
+  if (!ownedPunkIds.length) return (
+    <div className="flex flex-col mt-4">
+      <h3 className="font-bold text-xl text-center">Instructions</h3>
+      <ol className="list-decimal list-inside">
+        <li>Mint a Punk below</li>
+        <li>Mint a Base Color</li>
+        <li>Click any part of your punk to color it in</li>
+        <li>{`Click "Save" to update your NFT`}</li>
+      </ol>
+    </div>
+  )
+
   return (
     <div className="flex flex-col mt-4">
       <h3 className="font-bold text-xl text-center">Instructions</h3>
       <ol className="list-decimal list-inside">
+        <li>Select one of your punks</li>
         <li>Select one of your colors</li>
         <li>Click any part of your punk to color it in</li>
-        <li>Click Save to update your NFT</li>
+        <li>{`Click "Save" to update your NFT`}</li>
       </ol>
     </div>
   )
