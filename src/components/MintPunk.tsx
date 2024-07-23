@@ -44,10 +44,10 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
     }, {
       onSuccess: (hash: string) => {
         console.log('Minted', hash);
-        // wait 2 seconds for the transaction to be indexed
+        // wait 3.5 seconds for the transaction to be indexed
         setTimeout(() => {
           onMinted();
-        }, 2000);
+        }, 3500);
       }
     });
   };
