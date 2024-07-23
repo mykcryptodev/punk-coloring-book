@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { type NFT } from "thirdweb";
 import BaseColors from "~/components/BaseColors";
@@ -7,6 +6,7 @@ import ColoringBook from "~/components/ColoringBook";
 import Punks from "~/components/Punks";
 import { Wallet } from "~/components/Wallet";
 import { useAccount } from 'wagmi';
+import Instructions from "~/components/Instructions";
 
 export default function Home() {
   const account = useAccount();
@@ -44,6 +44,7 @@ export default function Home() {
           ColorPunks
         </h1>
         <Wallet />
+        <Instructions />
         <ColoringBook
           color={selectedColor}
           punk={selectedPunk}
