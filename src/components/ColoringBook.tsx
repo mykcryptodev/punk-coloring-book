@@ -291,8 +291,8 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
       )}
       <canvas
         ref={canvasRef}
-        width={240}
-        height={240}
+        width={320}
+        height={320}
         onClick={handleCanvasClick}
         className="cursor-crosshair border-2 border-black"
       />
@@ -311,7 +311,7 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
           Save
         </button>
       ) : (
-        <span className="text-center text-xs mt-2">Click on one of your Punks below or mint a punk to color it!</span>
+        <span className="text-center text-xs mt-2">Click on one of your Punks above or mint a punk to color it!</span>
       )}
     </div>
   )

@@ -44,15 +44,15 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
     }, {
       onSuccess: (hash: string) => {
         console.log('Minted', hash);
-        // wait 3.5 seconds for the transaction to be indexed
+        // wait 5 seconds for the transaction to be indexed
         setTimeout(() => {
           onMinted();
-        }, 3500);
+        }, 500);
       }
     });
   };
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" id="mint-punks">
       <div className="flex items-center gap-4 mx-auto">
         <button 
           onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}

@@ -45,6 +45,12 @@ export default function Home() {
         </h1>
         <Wallet />
         <Instructions />
+        <div className="my-4" />
+        <div className="text-xl font-bold mb-2">Your Punks</div>
+        <Punks 
+          onPunkSelected={(punk) => setSelectedPunk(punk)}
+          updatedPunk={updatedPunk}
+        />
         <ColoringBook
           color={selectedColor}
           punk={selectedPunk}
@@ -56,11 +62,6 @@ export default function Home() {
           onColorSelected={(color) => setSelectedColor(color)}
         />
         <div className="my-4" />
-        <div className="mb-2 text-xl font-bold">Your Punks</div>
-        <Punks 
-          onPunkSelected={(punk) => setSelectedPunk(punk)}
-          updatedPunk={updatedPunk}
-        />
       </main>
     </>
   );
