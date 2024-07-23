@@ -70,7 +70,7 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
       </div>
       <div className="mx-auto w-fit">
         <button 
-          disabled={!account}
+          disabled={!account?.address}
           onClick={async () => {
             await handleMint();
           }}
