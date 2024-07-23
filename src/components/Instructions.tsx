@@ -63,6 +63,7 @@ export const Instructions: FC = () => {
       <ol className="list-decimal list-inside">
         <li>Mint a Punk below</li>
         <li>Mint a Base Color</li>
+        <li>Select a punk to color in</li>
         <li>Click any part of your punk to color it in</li>
         <li>{`Click "Save" to update your NFT`}</li>
       </ol>
