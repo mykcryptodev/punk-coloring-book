@@ -55,6 +55,10 @@ export const Punks: FC<Props> = ({ onPunkSelected, updatedPunk }) => {
     }
   }, [account?.address, fetchOwnedNfts]);
 
+  useEffect(() => {
+    void fetchOwnedNfts();
+  }, [fetchOwnedNfts, updatedPunk?.metadata.image]);
+
   const PunkPic: FC<{ punk: NFT }> = ({ punk }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [, setImage] = useState<HTMLImageElement | null>(null);
