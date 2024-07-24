@@ -48,7 +48,7 @@ export const BaseColors: FC<Props> = ({ onColorSelected }) => {
           return (
             <div 
               key={nft.nft_id} 
-              className={`flex flex-col gap-2 cursor-pointer`}
+              className={`flex flex-col items-center gap-2 cursor-pointer`}
               onClick={() => {
                 setSelectedColor(colorName());
                 onColorSelected(originalName)
