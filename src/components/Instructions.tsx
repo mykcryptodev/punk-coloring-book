@@ -74,8 +74,8 @@ export const Instructions: FC = () => {
     <div className="flex flex-col mt-4">
       <h3 className="font-bold text-xl text-center">Instructions</h3>
       <ol className="list-decimal list-inside">
-        <li>Select one of your punks</li>
-        <li>Select one of your colors</li>
+        <li>Select one of your punks by clicking on it</li>
+        <li>Select one of your colors by clicking on it</li>
         <li>Click any part of your punk to color it in</li>
         <li>{`Click "Save" to update your NFT`}</li>
       </ol>
