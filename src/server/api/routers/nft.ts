@@ -106,6 +106,28 @@ export const nftRouter = createTRPCRouter({
       const data = await simpleHashResponse.json() as NftsByWalletResponse;
       return data;
     }),
+  refreshWallet: publicProcedure
+    .input(z.object({ 
+      address: z.string(),
+    }))
+    .mutation(async ({ input }) => {
+      const chain = CHAIN.name;
+      const url = new URL(`https://api.simplehash.com/api/v0/nfts/refresh/wallet/${input.address}`);
+      // add the chain as a query parameter
+      url.searchParams.append('chain', chain);
+      const response = await fetch(url.toString(), {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'X-API-KEY': env.SIMPLEHASH_API_KEY,
+        },
+      });
+      type RefreshWalletResponse = {
+        message: string;
+      };
+      const data = await response.json() as RefreshWalletResponse;
+      return data;
+    }),
   updateMetadata: publicProcedure
     .input(z.object({ 
       nftOwner: z.string(),
