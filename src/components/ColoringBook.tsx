@@ -8,6 +8,7 @@ import { getNFT } from 'thirdweb/extensions/erc721';
 import { updateTokenURI } from '~/thirdweb/84532/0x9088bba410d204dc6837cc4f9ba23246dc5f58bf';
 import { COLOR_PUNKS } from '~/constants/addresses';
 import { CHAIN } from '~/constants/chains';
+import posthog from "posthog-js";
 
 type Props = {
   color: string | null;
@@ -175,6 +176,7 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
 
   const handleUpdateMetadata = async () => {
     if (!account?.address || !punk) return;
+    posthog.capture('update_punk', { punk: punk.id });
     const client = createThirdwebClient({
       clientId: env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
     });

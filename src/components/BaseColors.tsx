@@ -3,6 +3,7 @@ import { useAccount } from "wagmi";
 import { api } from "~/utils/api";
 import Image from "next/image";
 import Link from "next/link";
+import posthog from "posthog-js";
 
 type Props = {
   onColorSelected: (color: string) => void;
@@ -22,6 +23,7 @@ export const BaseColors: FC<Props> = ({ onColorSelected }) => {
   const [isRefreshingWallet, setIsRefreshingWallet] = useState<boolean>(false);
 
   const handleRefreshWalletMetadata = async () => {
+    posthog.capture('refresh_wallet');
     setIsRefreshingWallet(true);
     try {
       await refreshWalletMetadata({ address: account?.address ?? '' });
@@ -37,7 +39,7 @@ export const BaseColors: FC<Props> = ({ onColorSelected }) => {
   return (
     <div className="flex flex-col gap-1 w-full justify-center">
       <div className="flex justify-center flex-wrap gap-2">
-        {data?.nfts?.map((nft) => {
+        {data?.nfts?.map((nft, index) => {
           const customName = nft.extra_metadata.attributes.find((attr) => attr.trait_type === 'Color Name')?.value;
           const originalName = nft.name;
           const colorName = () => {
@@ -50,6 +52,7 @@ export const BaseColors: FC<Props> = ({ onColorSelected }) => {
               key={nft.nft_id} 
               className={`flex flex-col items-center gap-2 cursor-pointer`}
               onClick={() => {
+                posthog.capture('select_color', { color: nft.token_id, index });
                 setSelectedColor(colorName());
                 onColorSelected(originalName)
               }}

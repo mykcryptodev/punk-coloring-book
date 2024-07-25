@@ -9,6 +9,7 @@ import { CHAIN } from "~/constants/chains";
 import { COLOR_PUNKS } from "~/constants/addresses";
 import NextImage from "next/image";
 import Link from "next/link";
+import posthog from "posthog-js";
 
 type Props = {
   onPunkSelected: (punk: NFT) => void;
@@ -118,6 +119,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
             key={nft.id} 
             className={`flex flex-col gap-2 cursor-pointer`}
             onClick={() => {
+              posthog.capture('select_punk', { punk: nft.id });
               setSelectedPunk(nft.id === updatedPunk?.id ? updatedPunk : nft);
               onPunkSelected(nft.id === updatedPunk?.id ? updatedPunk : nft);
             }}

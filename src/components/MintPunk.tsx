@@ -6,6 +6,7 @@ import { useAccount, useSendTransaction, useWalletClient } from "wagmi";
 import { COLOR_PUNKS } from "~/constants/addresses";
 import { mint } from "~/thirdweb/84532/0x9088bba410d204dc6837cc4f9ba23246dc5f58bf";
 import { CHAIN } from "~/constants/chains";
+import posthog from "posthog-js";
 
 type Props = {
   onMinted: () => void;
@@ -26,6 +27,7 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
   });
   const mintPrice = BigInt(toWei('0.001'));
   const handleMint = async () => {
+    posthog.capture('mint_punk');
     if (!account) return;
     const adaptedAccount = viemAdapter.walletClient.fromViem({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any

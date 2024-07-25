@@ -23,6 +23,8 @@ export const env = createEnv({
     NEXT_PUBLIC_ONCHAINKIT_API_KEY: z.string(),
     NEXT_PUBLIC_THIRDWEB_CLIENT_ID: z.string(),
     NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string(),
+    NEXT_PUBLIC_POSTHOG_KEY: z.string(),
+    NEXT_PUBLIC_POSTHOG_HOST: z.string(),
   },
 
   /**
@@ -38,6 +40,8 @@ export const env = createEnv({
     ADMIN_PRIVATE_KEY: process.env.ADMIN_PRIVATE_KEY,
     THIRDWEB_ENGINE_ACCESS_TOKEN: process.env.THIRDWEB_ENGINE_ACCESS_TOKEN,
     OPENSEA_API_KEY: process.env.OPENSEA_API_KEY,
+    NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
