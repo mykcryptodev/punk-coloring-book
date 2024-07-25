@@ -12,7 +12,7 @@ export const customRainbowTheme: Theme = {
   ...lightTheme(),
   colors: {
     ...lightTheme().colors,
-    accentColor: '#0600FF', // Matching primary background color
+    accentColor: '#0000FF', // Matching primary background color
   },
   radii: {
     ...lightTheme().radii,

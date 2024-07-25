@@ -8,7 +8,7 @@
     --text-foreground: theme(colors.gray.950);
     --text-foreground-muted: theme(colors.gray.600);
     --text-error: theme(colors.rose.600);
-    --text-primary: #0600FF;
+    --text-primary: #0000FF;
     --text-success: theme(colors.lime.600);
     --text-warning: theme(colors.orange.600);
     --text-disabled: theme(colors.gray.400);
@@ -22,7 +22,7 @@
     --bg-inverse: theme(colors.gray.100);
     --bg-inverse-hover: theme(colors.gray.200);
     --bg-inverse-active: theme(colors.gray.300);
-    --bg-primary: #0600FF;
+    --bg-primary: #0000FF;
     --bg-primary-hover: #0500E6;
     --bg-primary-active: #0400CC;
     --bg-secondary: theme(colors.slate.200);

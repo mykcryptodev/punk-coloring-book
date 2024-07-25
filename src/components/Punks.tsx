@@ -130,7 +130,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
             <span className="flex items-center gap-1 text-center text-xs">
               {nft.metadata.name}
               <Link 
-                href={`https://${CHAIN.name === 'base-sepolia' ? 'testnets.' : ''}opensea.io/assets/${CHAIN.name}/${COLOR_PUNKS}`} 
+                href={`https://${CHAIN.name === 'base-sepolia' ? 'testnets.' : ''}opensea.io/assets/${CHAIN.name}/${COLOR_PUNKS}/${nft.id.toString()}`} 
                 rel="noreferrer" 
                 target="_blank"
               >

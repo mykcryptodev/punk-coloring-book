@@ -1,2 +1,2 @@
-export const COLOR_PUNKS = '0x7162Fccc05e92e5a962d6615cA12276631a2508c';
+export const COLOR_PUNKS = '0x3c285fccf6e390dd66b8254e9cac4b4c96157782';
 export const BASE_COLORS = '0x7bc1c072742d8391817eb4eb2317f98dc72c61db';

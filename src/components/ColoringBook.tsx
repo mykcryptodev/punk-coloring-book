@@ -76,6 +76,11 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
 
     const targetColor = getColorAtPixel(data, x, y);
 
+    // Check if the target color is black (0, 0, 0, 255)
+    if (colorsMatch(targetColor, new Uint8ClampedArray([0, 0, 0, 255]))) {
+      return; // Do not fill if the target color is black
+    }
+
     if (!colorsMatch(targetColor, fillColor)) {
       // Save the current state before making changes
       setHistory((prevHistory) => [...prevHistory, imageData]);
