@@ -71,9 +71,12 @@ export const BaseColors: FC<Props> = ({ onColorSelected }) => {
         {isLoading && <div>Loading...</div>}
         {!isLoading && !data?.nfts?.length && <div>No colors found</div>}
       </div>
-      <Link className="mx-auto" href="https://www.basecolors.com/" rel="noreferrer" target="_blank">
+      <Link className="mx-auto" href="https://www.basecolors.com/?utm_source=color-punks" rel="noreferrer" target="_blank">
         <button 
-          className="btn-primary font-bold" 
+          className="btn-primary font-bold"
+          onClick={() => {
+            posthog.capture('go_to_base_colors');
+          }}
         >
           Mint Colors
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="size-4">
