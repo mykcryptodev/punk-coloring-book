@@ -61,7 +61,7 @@ export const BaseColors: FC<Props> = ({ onColorSelected }) => {
                 alt={colorName()}
                 className={`${selectedColor === colorName() ? 'border-2 border-black' : ''}`}
               />
-              <span className="text-center text-sm">{colorName()}</span>
+              <span className="text-center text-xs truncate max-w-24">{colorName()}</span>
             </div>
           )
         })}
