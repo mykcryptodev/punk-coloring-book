@@ -7,6 +7,7 @@ import Punks from "~/components/Punks";
 import { Wallet } from "~/components/Wallet";
 import { useAccount } from 'wagmi';
 import Instructions from "~/components/Instructions";
+import Share from "~/components/Share";
 
 export default function Home() {
   const account = useAccount();
@@ -60,6 +61,8 @@ export default function Home() {
           punk={selectedPunk}
           onPunkColored={(punk) => onPunkColored(punk)}
         />
+        <div className="my-1" />
+        <Share nft={selectedPunk} />
         <div className="my-4" />
         <div className="mb-2 text-xl font-bold">Your Base Colors</div>
         <BaseColors 
