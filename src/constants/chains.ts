@@ -12,16 +12,16 @@ import {
   baseSepolia as baseSepoliaWagmi,
 } from 'wagmi/chains';
 
-export const CHAIN = {
-  name: 'base-sepolia',
-  thirdweb: baseSepoliaThirdweb,
-  viem: baseSepoliaViem,
-  wagmmi: baseSepoliaWagmi,
-};
-
 // export const CHAIN = {
-//   name: 'base',
-//   thirdweb: baseThirdweb,
-//   viem: baseViem,
-//   wagmi: baseWagmi,
+//   name: 'base-sepolia',
+//   thirdweb: baseSepoliaThirdweb,
+//   viem: baseSepoliaViem,
+//   wagmmi: baseSepoliaWagmi,
 // };
+
+export const CHAIN = {
+  name: 'base',
+  thirdweb: baseThirdweb,
+  viem: baseViem,
+  wagmi: baseWagmi,
+};

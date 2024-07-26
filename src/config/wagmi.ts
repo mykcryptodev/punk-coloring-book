@@ -1,5 +1,8 @@
 import { http, createConfig } from 'wagmi';
-import { base, baseSepolia } from 'wagmi/chains';
+import { 
+  base, 
+  // baseSepolia 
+} from 'wagmi/chains';
 
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import {
@@ -29,10 +32,10 @@ const connectors = connectorsForWallets(
 );
 
 export const config = createConfig({
-  chains: [base, baseSepolia],
+  chains: [base],// baseSepolia],
   connectors,
   transports: {
-    [baseSepolia.id]: http(),
+    // [baseSepolia.id]: http(),
     [base.id]: http(),
   },
 });
