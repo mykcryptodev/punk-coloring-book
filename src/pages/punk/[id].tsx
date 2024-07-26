@@ -10,6 +10,8 @@ import { COLOR_PUNKS } from "~/constants/addresses";
 import { CHAIN } from "~/constants/chains";
 import { env } from "~/env";
 import Head from "next/head";
+import { FrameMetadata } from "@coinbase/onchainkit/frame";
+import { resolveScheme } from "thirdweb/storage";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.params as { id: string };
@@ -58,6 +60,19 @@ export const Punk: NextPage<Props> = ({ nft }) => {
         <title>ColorPunk #{nft.id.toString()}</title>
         <meta name="description" content="1,000 unique ColorPunks brought to life with Base Colors." />
         <link rel="icon" href="/favicon.ico" />
+        <FrameMetadata
+          buttons={[
+            {
+              action: 'link',
+              label: 'Visit',
+              target: `https://colorpunks.com/punk/${nft.id.toString()}`,
+            },
+          ]}
+          image={{
+            src: nft.metadata.image ? resolveScheme({ client, uri: nft.metadata.image }) : 'https://colorpunks.com/og.jpg',
+            aspectRatio: nft.metadata.image ? '1:1' : '1.91:1',
+          }}
+        />
       </Head>
       <div className="flex justify-center items-center mt-20">
         <div className="flex flex-col gap-1">
