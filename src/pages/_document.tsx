@@ -12,7 +12,7 @@ export default function Document() {
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta property="og:title" content="Colo Punks" />
         <meta property="og:description" content="1,000 unique ColorPunks brought to life with Base Colors." />
-        <meta property="og:image" content="/images/og.jpeg" />
+        <meta property="og:image" content="/images/og.jpg" />
         <meta property="og:url" content="https://colorpunks.com" />
         <FrameMetadata
           buttons={[
@@ -23,7 +23,7 @@ export default function Document() {
           },
         ]}
         image={{
-          src: 'https://colorpunks.com/og.jpeg',
+          src: 'https://colorpunks.com/og.jpg',
           aspectRatio: '1.91:1'
         }}
         />
