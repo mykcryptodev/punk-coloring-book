@@ -64,7 +64,7 @@ contract ColorPunks is ERC721Base, PrimarySale {
             _safeMint(_to, 1);
             // set token uri for each token
              _setTokenURI(tokenId, string(abi.encodePacked(
-                "ipfs://Qmcjg8Gn7WkXAVZAH6QUtsz2v9AJhn1eUAi57J22f27PSF/", 
+                "ipfs://Qmb9Kje3TSXiRt3ZTqFPWLWTSLKziVTezdAYEfhJNn6kNj/", 
                 Strings.toString(tokenId)
             )));
         }
