@@ -7,7 +7,7 @@ type Props = {
   nft: NFT | null,
 }
 export const Share: FC<Props> = ({ nft }) => {
-  const postText = `I brought my ColorPunk to life with Base Colors!`;
+  const postText = `I brought ColorPunk #${nft?.id.toString()} to life with Base Colors!`;
   if (!nft) return null;
   return (
     <div className="flex items-center gap-2">
