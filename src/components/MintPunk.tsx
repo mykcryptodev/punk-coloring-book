@@ -10,9 +10,10 @@ import posthog from "posthog-js";
 
 type Props = {
   onMinted: () => void;
+  totalPunksMinted: number | undefined;
 }
 
-export const MintPunk: FC<Props> = ({ onMinted }) => {
+export const MintPunk: FC<Props> = ({ onMinted, totalPunksMinted }) => {
   const account = useAccount();
   const { data: walletClient } = useWalletClient();
   const [quantity, setQuantity] = useState<number>(1);
@@ -54,39 +55,46 @@ export const MintPunk: FC<Props> = ({ onMinted }) => {
     });
   };
   return (
-    <div className="flex flex-col" id="mint-punks">
-      <div className="flex items-center gap-4 mx-auto">
-        <button 
-          onClick={() => {
-            posthog.capture('decrement_mint_quantity', { quantity: Math.max(1, quantity - 1) });
-            setQuantity((prev) => Math.max(1, prev - 1))
-          }}
-          className="px-2 py-1 bg-gray-200 rounded"
-        >
-          -
-        </button>
-        <span>{quantity}</span>
-        <button 
-          onClick={() => {
-            posthog.capture('increment_mint_quantity', { quantity: quantity + 1 });
-            setQuantity((prev) => prev + 1);
-          }}
-          className="px-2 py-1 bg-gray-200 rounded"
-        >
-          +
-        </button>
+    <div className="flex flex-col gap-1">
+      <div className="flex flex-col" id="mint-punks">
+        <div className="flex items-center gap-4 mx-auto">
+          <button 
+            onClick={() => {
+              posthog.capture('decrement_mint_quantity', { quantity: Math.max(1, quantity - 1) });
+              setQuantity((prev) => Math.max(1, prev - 1))
+            }}
+            className="px-2 py-1 bg-gray-200 rounded"
+          >
+            -
+          </button>
+          <span>{quantity}</span>
+          <button 
+            onClick={() => {
+              posthog.capture('increment_mint_quantity', { quantity: quantity + 1 });
+              setQuantity((prev) => prev + 1);
+            }}
+            className="px-2 py-1 bg-gray-200 rounded"
+          >
+            +
+          </button>
+        </div>
+        <div className="mx-auto w-fit">
+          <button 
+            disabled={!account?.address}
+            onClick={async () => {
+              await handleMint();
+            }}
+            className="btn-primary font-bold"
+          >
+            Mint {quantity.toString()} Punk{quantity > 1 ? 's' : ''} for {`${toEther(mintPrice * BigInt(quantity))} ETH`}
+          </button>
+        </div>
       </div>
-      <div className="mx-auto w-fit">
-        <button 
-          disabled={!account?.address}
-          onClick={async () => {
-            await handleMint();
-          }}
-          className="btn-primary font-bold"
-        >
-          Mint {quantity.toString()} Punk{quantity > 1 ? 's' : ''} for {`${toEther(mintPrice * BigInt(quantity))} ETH`}
-        </button>
-      </div>
+      {totalPunksMinted !== undefined ? (
+        <div className="text-xs mx-auto">{totalPunksMinted}/1000 punks minted</div>
+      ) : (
+        <div className="w-32 h-4 bg-slate-300 rounded mx-auto" />
+      )}
     </div>
   )
 };

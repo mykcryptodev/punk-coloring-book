@@ -4,7 +4,7 @@ import { resolveScheme } from "thirdweb/storage";
 import { type NFT, createThirdwebClient, getContract } from "thirdweb";
 import { env } from "~/env";
 import { MintPunk } from "./MintPunk";
-import { getOwnedNFTs } from "thirdweb/extensions/erc721";
+import { getOwnedNFTs, nextTokenIdToMint } from "thirdweb/extensions/erc721";
 import { CHAIN } from "~/constants/chains";
 import { COLOR_PUNKS } from "~/constants/addresses";
 import NextImage from "next/image";
@@ -23,6 +23,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
   const [ownedPunks, setOwnedPunks] = useState<NFT[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRefreshingWallet, setIsRefreshingWallet] = useState<boolean>(false);
+  const [totalPunksMinted, setTotalPunksMinted] = useState<number>();
 
   const client = useMemo(() => createThirdwebClient({
     clientId: env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
@@ -33,6 +34,19 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
     chain: CHAIN.thirdweb,
     address: COLOR_PUNKS,
   }), [client]);
+
+  const fetchTotalPunksMinted = useCallback(async () => {
+    try {
+      const totalPunks = await nextTokenIdToMint({ contract });
+      setTotalPunksMinted(Number(totalPunks) - 1);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [contract]);
+
+  useEffect(() => {
+    void fetchTotalPunksMinted();
+  }, [contract, fetchTotalPunksMinted]);
 
   const fetchOwnedNfts = useCallback(async () => {
     if (!account?.address) return;
@@ -67,6 +81,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
     // wait 5s for the blockchain to index
     setTimeout(() => {
       void onPunkMinted();
+      void fetchTotalPunksMinted();
     }, 5000);
   };
 
@@ -160,7 +175,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
         {isLoading && <div>Loading...</div>}
         {!isLoading && !ownedPunks?.length && <div>No punks found</div>}
       </div>
-      <MintPunk onMinted={handleOnMint} />
+      <MintPunk onMinted={handleOnMint} totalPunksMinted={totalPunksMinted} />
       <button
         className="font-bold underline opacity-70 text-xs mt-2 mx-auto flex items-center gap-1"
         onClick={handleRefresh}
