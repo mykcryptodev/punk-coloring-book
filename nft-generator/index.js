@@ -53,7 +53,7 @@ const traitProbabilities = {
       'choker.png': { probability: 0.75, allowedBases: ['female.png'] },
       'clown_hair.png': { probability: 0.75, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
       'cowboy_hat.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'crazy_hair.png': { probability: 0.75, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'crazy_hair.png': { probability: 0.75, allowedBases: ['male.png', 'zombie.png', 'ape.png', 'alien.png'] },
       'do-rag.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
       'fedora.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
       'frumpy_hair.png': { probability: 0.75, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
@@ -100,10 +100,10 @@ const traitProbabilities = {
   glasses: {
     probability: 0.0572,
     values: {
-      'small_shades.png': 0.5,
-      'eye_mask.png': 0.3,
-      '3D_glasses.png': 0.1,
-      'vr.png': 0.1
+      'small_shades.png': { probability: 0.5 },
+      'eye_mask.png': { probability: 0.3, allowedBases: ['male.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      '3D_glasses.png': { probability: 0.1 },
+      'vr.png': { probability: 0.1 }
     }
   },
   mouth: {
