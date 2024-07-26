@@ -183,6 +183,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
       <div className="text-center font-bold">
         Buy ColorPunks
       </div>
+      <span className="text-xs text-center -mt-1">1000 / 1000 minted in 4h</span>
       <div className="flex sm:flex-row flex-col w-full justify-center items-center gap-2">
         <Link 
           href="https://opensea.io/collection/basecolorpunks?utm_source=basecolorpunks"
