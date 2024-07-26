@@ -181,7 +181,7 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
 
   const handleUpdateMetadata = async () => {
     if (!account?.address || !punk) return;
-    posthog.capture('update_punk', { punk: punk.id });
+    posthog.capture('update_punk', { punk: punk.id.toString() });
     const client = createThirdwebClient({
       clientId: env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
     });

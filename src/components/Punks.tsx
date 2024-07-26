@@ -119,7 +119,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
             key={nft.id} 
             className={`flex flex-col gap-2 cursor-pointer`}
             onClick={() => {
-              posthog.capture('select_punk', { punk: nft.id, index });
+              posthog.capture('select_punk', { punk: nft.id.toString(), index });
               setSelectedPunk(nft.id === updatedPunk?.id ? updatedPunk : nft);
               onPunkSelected(nft.id === updatedPunk?.id ? updatedPunk : nft);
             }}
