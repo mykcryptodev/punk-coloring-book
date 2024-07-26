@@ -211,7 +211,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
               width={1160}
               height={302}
               alt="base token store"
-              className="w-full h-full rounded-lg"
+              className="w-full h-full rounded-lg max-w-44"
             />
           </button>
         </Link>
