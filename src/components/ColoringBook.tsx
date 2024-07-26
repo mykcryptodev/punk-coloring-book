@@ -150,7 +150,7 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
 
   const handleUndo = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !color) return;
     const context = canvas.getContext('2d');
     if (!context) return;
 
