@@ -3,7 +3,7 @@ import { useAccount } from "wagmi";
 import { resolveScheme } from "thirdweb/storage";
 import { type NFT, createThirdwebClient, getContract } from "thirdweb";
 import { env } from "~/env";
-import { MintPunk } from "./MintPunk";
+// import { MintPunk } from "./MintPunk";
 import { getOwnedNFTs, nextTokenIdToMint } from "thirdweb/extensions/erc721";
 import { CHAIN } from "~/constants/chains";
 import { COLOR_PUNKS } from "~/constants/addresses";
@@ -22,7 +22,9 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
   const account = useAccount();
   const [ownedPunks, setOwnedPunks] = useState<NFT[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isRefreshingWallet, setIsRefreshingWallet] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [totalPunksMinted, setTotalPunksMinted] = useState<number>();
 
   const client = useMemo(() => createThirdwebClient({
@@ -76,6 +78,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
     void fetchOwnedNfts();
   }, [fetchOwnedNfts, updatedPunk?.metadata.image]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleOnMint = () => {
     void fetchOwnedNfts();
     // wait 5s for the blockchain to index
@@ -85,6 +88,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
     }, 5000);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleRefresh = async () => {
     posthog.capture('refresh_punks');
     setIsRefreshingWallet(true);
@@ -175,8 +179,44 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
         {isLoading && <div>Loading...</div>}
         {!isLoading && !ownedPunks?.length && <div>No punks found</div>}
       </div>
-      <MintPunk onMinted={handleOnMint} totalPunksMinted={totalPunksMinted} />
-      <button
+      {/* <MintPunk onMinted={handleOnMint} totalPunksMinted={totalPunksMinted} /> */}
+      <div className="text-center font-bold">
+        Buy ColorPunks
+      </div>
+      <div className="flex sm:flex-row flex-col w-full justify-center items-center gap-2">
+        <Link 
+          href="https://opensea.io/collection/basecolorpunks?utm_source=basecolorpunks"
+          rel="noreferrer"
+          target="_blank"
+        >
+          <button className="flex items-center gap-1 btn border rounded-lg py-1 px-6 h-12">
+            <NextImage
+              src="/opensea-wordmark.svg"
+              layout="responsive"
+              alt="opensea"
+              width={1160}
+              height={302}
+              className="max-w-32"
+            />
+          </button>
+        </Link>
+        <Link 
+          href="https://www.basetokenstore.com/?category=NFTs%20and%20collectibles&collectionId=7172422d0f9fb771dc71d3b8243fd4bb&utm_source=basecolorpunks"
+          rel="noreferrer"
+          target="_blank"
+        >
+          <button className="flex items-center gap-1 btn border rounded-lg h-12">
+            <NextImage
+              src="/basetokenstore.png"
+              width={1160}
+              height={302}
+              alt="base token store"
+              className="w-full h-full rounded-lg"
+            />
+          </button>
+        </Link>
+      </div>
+      {/* <button
         className="font-bold underline opacity-70 text-xs mt-2 mx-auto flex items-center gap-1"
         onClick={handleRefresh}
       >
@@ -188,7 +228,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
           </div>
         )}
         Missing a punk you just minted?
-      </button>
+      </button> */}
     </div>
   )
 };
