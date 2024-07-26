@@ -1,5 +1,4 @@
 
-import { FrameMetadata } from "@coinbase/onchainkit/frame";
 import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
@@ -14,19 +13,6 @@ export default function Document() {
         <meta property="og:description" content="1,000 unique ColorPunks brought to life with Base Colors." />
         <meta property="og:image" content="/images/og.jpg" />
         <meta property="og:url" content="https://colorpunks.com" />
-        <FrameMetadata
-          buttons={[
-          {
-            action: 'link',
-            label: 'Visit',
-            target: 'https://colorpunks.com'
-          },
-        ]}
-        image={{
-          src: 'https://colorpunks.com/og.jpg',
-          aspectRatio: '1.91:1'
-        }}
-        />
       </Head>
       <body className="font-brand">
         <Main />

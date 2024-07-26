@@ -8,6 +8,7 @@ import { Wallet } from "~/components/Wallet";
 import { useAccount } from 'wagmi';
 import Instructions from "~/components/Instructions";
 import Share from "~/components/Share";
+import { FrameMetadata } from "@coinbase/onchainkit/frame";
 
 export default function Home() {
   const account = useAccount();
@@ -40,6 +41,19 @@ export default function Home() {
         <title>ColorPunks</title>
         <meta name="description" content="1,000 unique ColorPunks brought to life with Base Colors." />
         <link rel="icon" href="/favicon.ico" />
+        <FrameMetadata
+          buttons={[
+            {
+              action: 'link',
+              label: 'Visit',
+              target: 'https://colorpunks.com'
+            },
+          ]}
+          image={{
+            src: 'https://colorpunks.com/og.jpg',
+            aspectRatio: '1.91:1'
+          }}
+        />
       </Head>
       <main className="mb-40 sm:mt-20 mt-10 flex flex-col items-center justify-center">
         <h1 className="text-center mb-4 font-bold text-6xl sm:text-7xl text-primary">
