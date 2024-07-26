@@ -64,7 +64,7 @@ export const Punk: NextPage<Props> = ({ nft }) => {
           buttons={[
             {
               action: 'link',
-              label: 'Visit',
+              label: `View #${nft.id.toString()}`,
               target: `https://colorpunks.com/punk/${nft.id.toString()}`,
             },
           ]}
