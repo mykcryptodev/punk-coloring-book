@@ -38,7 +38,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
   const fetchTotalPunksMinted = useCallback(async () => {
     try {
       const totalPunks = await nextTokenIdToMint({ contract });
-      setTotalPunksMinted(Number(totalPunks) - 1);
+      setTotalPunksMinted(Number(totalPunks));
     } catch (e) {
       console.error(e);
     }
