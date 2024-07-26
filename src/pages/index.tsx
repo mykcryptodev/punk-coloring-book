@@ -36,8 +36,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Color Punks</title>
-        <meta name="description" content="Use your Base Colors to decorate your Color Punks!" />
+        <title>ColorPunks</title>
+        <meta name="description" content="1,000 unique ColorPunks brought to life with Base Colors." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="mb-40 sm:mt-20 mt-10 flex flex-col items-center justify-center">

@@ -22,6 +22,7 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
   const account = useAccount();
   const [ownedPunks, setOwnedPunks] = useState<NFT[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRefreshingWallet, setIsRefreshingWallet] = useState<boolean>(false);
 
   const client = useMemo(() => createThirdwebClient({
     clientId: env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
@@ -68,6 +69,18 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
       void onPunkMinted();
     }, 5000);
   };
+
+  const handleRefresh = async () => {
+    posthog.capture('refresh_punks');
+    setIsRefreshingWallet(true);
+    try {
+      await fetchOwnedNfts();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsRefreshingWallet(false);
+    }
+  }
 
   const PunkPic: FC<{ punk: NFT }> = ({ punk }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -148,6 +161,19 @@ export const Punks: FC<Props> = ({ onPunkSelected, onPunkMinted, updatedPunk }) 
         {!isLoading && !ownedPunks?.length && <div>No punks found</div>}
       </div>
       <MintPunk onMinted={handleOnMint} />
+      <button
+        className="font-bold underline opacity-70 text-xs mt-2 mx-auto flex items-center gap-1"
+        onClick={handleRefresh}
+      >
+        {isRefreshingWallet && (
+          <div className="animate-spin w-fit">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+          </div>
+        )}
+        Missing a punk you just minted?
+      </button>
     </div>
   )
 };

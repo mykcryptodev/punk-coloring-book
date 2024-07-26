@@ -23,7 +23,7 @@ const connectors = connectorsForWallets(
     },
   ],
   {
-    appName: 'Color Punks',
+    appName: 'ColorPunks',
     projectId: env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
   }
 );

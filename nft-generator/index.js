@@ -44,44 +44,43 @@ const traitProbabilities = {
     }
   },
   top: {
-    probability: 0.3840, // This is the original probability for 'top' from your earlier data
+    probability: 0.90,
     values: {
-      'beanie.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'bob.png': { probability: 1, allowedBases: ['female.png'] },
-      'cap_forward.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'cap.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'choker.png': { probability: 1, allowedBases: ['female.png'] },
-      'clown_hair.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'cowboy_hat.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'crazy_hair.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'do-rag.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'fedora.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'frumpy_hair.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'half_shaved.png': { probability: 1, allowedBases: ['female.png'] },
-      'headband.png': { probability: 1, allowedBases: ['male.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'hoodie.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'knitted_cap.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'long_hair_parted.png': { probability: 1, allowedBases: ['female.png'] },
-      'mohawk.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'peak_spike.png': { probability: 1, allowedBases: ['female.png'] },
-      'pigtails.png': { probability: 1, allowedBases: ['female.png'] },
-      'pilot_helmet.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'police_cap.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'mohawk.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'short.png': { probability: 1, allowedBases: ['female.png'] },
-      'spikey_hair.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'straight_hair.png': { probability: 1, allowedBases: ['female.png'] },
-      'tassle_hat.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'tiara.png': { probability: 1, allowedBases: ['female.png'] },
-      'top_hat.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'vampire_hair.png': { probability: 1, allowedBases: ['male.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'welding_goggles.png': { probability: 1, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
-      'wild_hair_with_bangs.png': { probability: 1, allowedBases: ['female.png'] },
-      'wild_hair.png': { probability: 1, allowedBases: ['female.png'] },
+      'beanie.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'bob.png': { probability: 0.75, allowedBases: ['female.png'] },
+      'cap_forward.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'cap.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'choker.png': { probability: 0.75, allowedBases: ['female.png'] },
+      'clown_hair.png': { probability: 0.75, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'cowboy_hat.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'crazy_hair.png': { probability: 0.75, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'do-rag.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'fedora.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'frumpy_hair.png': { probability: 0.75, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'half_shaved.png': { probability: 0.75, allowedBases: ['female.png'] },
+      'headband.png': { probability: 0.25, allowedBases: ['male.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'hoodie.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'knitted_cap.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'long_hair_parted.png': { probability: 0.75, allowedBases: ['female.png'] },
+      'mohawk.png': { probability: 0.75, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'peak_spike.png': { probability: 0.75, allowedBases: ['female.png'] },
+      'pigtails.png': { probability: 0.75, allowedBases: ['female.png'] },
+      'pilot_helmet.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'police_cap.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'short.png': { probability: 0.75, allowedBases: ['female.png'] },
+      'spikey_hair.png': { probability: 0.75, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'straight_hair.png': { probability: 0.75, allowedBases: ['female.png'] },
+      'tassle_hat.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'tiara.png': { probability: 0.25, allowedBases: ['female.png'] },
+      'top_hat.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'vampire_hair.png': { probability: 0.75, allowedBases: ['male.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'welding_goggles.png': { probability: 0.25, allowedBases: ['male.png', 'female.png', 'zombie.png', 'ape.png', 'alien.png'] },
+      'wild_hair_with_bangs.png': { probability: 0.75, allowedBases: ['female.png'] },
+      'wild_hair.png': { probability: 0.75, allowedBases: ['female.png'] },
     }
   },
   beard: {
-    probability: 0.0286,
+    probability: 0.05,
     values: {
       'big_beard.png': { probability: 0.5, allowedBases: ['male.png', 'zombie.png', 'alien.png'] },
       'chinstrap.png': { probability: 0.5, allowedBases: ['male.png', 'zombie.png', 'alien.png'] },
@@ -95,7 +94,7 @@ const traitProbabilities = {
     }
   },
   cheek: {
-    probability: 0.0286,
+    probability: 0.015,
     values: {} // Add values if needed
   },
   glasses: {
@@ -108,11 +107,10 @@ const traitProbabilities = {
     }
   },
   mouth: {
-    probability: 1,
+    probability: 0.0075,
     values: {
       'buck_teeth.png': 0.2,
-      'medical_mask.png': 0.15,
-      'pipe.png': 0.4,
+      'pipe.png': 0.2,
       'cigarette.png': 0.2,
       'vape.png': 0.05
     }
@@ -228,8 +226,8 @@ async function generateUniqueNFT(tokenId) {
 
   // Generate metadata
   const metadata = {
-    name: `Color Punk #${tokenId}`,
-    description: "Punks you can customize with your Base Colors",
+    name: `ColorPunk #${tokenId}`,
+    description: "1,000 unique ColorPunks brought to life with Base Colors.",
     image: `${tokenId}.png`,
     attributes: Object.entries(traits).map(([trait, value]) => ({
       trait_type: trait,

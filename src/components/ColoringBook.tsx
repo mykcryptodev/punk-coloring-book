@@ -24,6 +24,8 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
   const { sendTransaction } = useSendTransaction();
   const { mutateAsync: refreshMetadata } = api.nft.refereshMetadata.useMutation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showSuccessMsg, setShowSuccessMsg] = useState<boolean>(false);
+  const [showErrorMsg, setShowErrorMsg] = useState<boolean>(false);
 
   useEffect(() => {
     // if the punk is null, then clear the canvas
@@ -258,12 +260,17 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
       };
       sendTransaction(transaction, {
         onSuccess: () => {
+          setShowSuccessMsg(true);
           // wait for index before refresh
           setTimeout(() => {
             void refreshMetadata({
               tokenId: punk.id.toString(),
             });
           }, 5000);
+          // wait 15s then hide success
+          setTimeout(() => {
+            setShowSuccessMsg(false);
+          }, 15000);
           onPunkColored({
             ...punk,
             metadata: {
@@ -276,6 +283,10 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
       });
     } catch (error) {
       console.error(error);
+      setShowErrorMsg(true);
+      setTimeout(() => {
+        setShowErrorMsg(false);
+      }, 15000);
     } finally {
       setIsLoading(false);
     }
@@ -314,6 +325,12 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
         </button>
       ) : (
         <span className="text-center text-xs mt-2">Click on one of your Punks above or mint a punk to color it!</span>
+      )}
+      {showErrorMsg && (
+        <div className="text-red-500 text-center mt-2">An error occurred while updating the punk. Please try again.</div>
+      )}
+      {showSuccessMsg && (
+        <div className="text-green-500 text-center mt-2">Punk successfully updated!</div>
       )}
     </div>
   )
