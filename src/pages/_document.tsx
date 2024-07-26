@@ -23,8 +23,8 @@ export default function Document() {
           },
         ]}
         image={{
-          src: 'https://images.pexels.com/photos/1564506/pexels-photo-1564506.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-          aspectRatio: '1:1'
+          src: 'https://colorpunks.com/og.jpeg',
+          aspectRatio: '1.91:1'
         }}
         />
       </Head>
