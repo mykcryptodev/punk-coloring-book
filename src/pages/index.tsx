@@ -9,6 +9,7 @@ import { useAccount } from 'wagmi';
 import Instructions from "~/components/Instructions";
 import Share from "~/components/Share";
 import { FrameMetadata } from "@coinbase/onchainkit/frame";
+import NewlyColored from "~/components/NewlyColored";
 
 export default function Home() {
   const account = useAccount();
@@ -83,6 +84,7 @@ export default function Home() {
           onColorSelected={(color) => setSelectedColor(color)}
         />
         <div className="my-4" />
+        <NewlyColored />
       </main>
     </>
   );

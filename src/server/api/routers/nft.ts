@@ -180,4 +180,56 @@ export const nftRouter = createTRPCRouter({
         transaction
       });
     }),
+  getUpdateMetadataEvents: publicProcedure
+  // TODO: allow pagination
+    .input(z.object({
+      orderBy: z.string(),
+      orderDirection: z.string(),
+      limit: z.number(),
+    }))
+    .query(async () => {
+      const query = `
+        query {
+	        tokenUriUpdates(
+            orderBy: "timestamp", 
+            orderDirection: "desc",
+            limit: 50,
+          ) {
+            items {
+              id
+              uri
+              user
+              tokenId
+              transactionHash
+              timestamp
+            }
+          }
+        }
+      `;
+      const response = await fetch("https://api.ghostlogs.xyz/gg/pub/42d2ccab-9938-4a25-a036-73362106aa33/ghostgraph", {
+        headers: {
+          // "X-GHOST-KEY": apiKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
+        method: "POST",
+      });
+      type GhostGraphData = {
+        data: {
+          tokenUriUpdates: {
+            items: Array<{
+              id: string;
+              timestamp: string;
+              tokenId: string;
+              transactionHash: string;
+              uri: string;
+              user: string;
+            }>;
+          };
+        };
+      } 
+      const res = await response.json() as GhostGraphData;
+      const { data } = res;
+      return data.tokenUriUpdates.items;
+    }),
 });
