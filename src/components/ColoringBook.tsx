@@ -9,6 +9,7 @@ import { updateTokenURI } from '~/thirdweb/84532/0x9088bba410d204dc6837cc4f9ba23
 import { COLOR_PUNKS } from '~/constants/addresses';
 import { CHAIN } from '~/constants/chains';
 import posthog from "posthog-js";
+import ResetToOriginal from '~/components/ResetToOriginal';
 
 type Props = {
   color: string | null;
@@ -294,14 +295,30 @@ const ColoringBook: FC<Props> = ({ color, punk, onPunkColored }) => {
 
   return (
     <div className="mt-8 flex flex-col justify-center">
-      {punk && (
-        <button onClick={handleUndo} className="flex items-center gap-2 px-4 my-2">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
-          </svg>
-          Undo
-        </button>
-      )}
+      <div className="flex justify-between items-center">
+        {punk && (
+          <button onClick={handleUndo} className="flex items-center gap-2 px-4 my-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+            </svg>
+            Undo
+          </button>
+        )}
+        {punk && (
+          <ResetToOriginal
+            punkId={punk.id.toString()}
+            onPunkReset={(resetPunk) => {
+              onPunkColored(resetPunk);
+              // wait for index before refresh
+              setTimeout(() => {
+                void refreshMetadata({
+                  tokenId: resetPunk.id.toString(),
+                });
+              }, 5000);
+            }}
+          />
+        )}
+      </div>
       <canvas
         ref={canvasRef}
         width={320}

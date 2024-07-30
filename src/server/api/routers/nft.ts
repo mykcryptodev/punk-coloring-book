@@ -230,6 +230,18 @@ export const nftRouter = createTRPCRouter({
       } 
       const res = await response.json() as GhostGraphData;
       const { data } = res;
-      return data.tokenUriUpdates.items;
+      const uniqueItems = data.tokenUriUpdates.items.reduce((acc, item) => {
+        const existingItem = acc.find(i => i.tokenId === item.tokenId);
+        if (existingItem) {
+          if (new Date(item.timestamp) > new Date(existingItem.timestamp)) {
+            acc = acc.filter(i => i.tokenId !== item.tokenId);
+            acc.push(item);
+          }
+        } else {
+          acc.push(item);
+        }
+        return acc;
+      }, [] as typeof data.tokenUriUpdates.items);
+      return uniqueItems;
     }),
 });
